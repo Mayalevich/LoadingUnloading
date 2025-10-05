@@ -6,11 +6,6 @@ It implements a **real-time personnel and safety monitoring system** that integr
 
 ---
 
-**Authors:** [Shunyu Yu](https://github.com/Mayalevich), [Hank Lee](https://github.com/lee-cheng-han), [Max Qiu](https://github.com/Sir7s), [Shiheng Wang](https://github.com/Wshhgugugu)  
-**University of Waterloo — Electrical and Computer Engineering**
-
----
-
 ## 🔍 Overview
 
 This project enhances operational safety in nuclear facilities by combining **machine learning**, **computer vision**, and **embedded sensing**.
@@ -241,4 +236,4 @@ You are free to use, modify, and distribute it for educational or research purpo
 [Max Qiu](https://github.com/Sir7s) — Embedded Systems   
 [Shiheng Wang](https://github.com/Wshhgugugu) — Model Training & Optimization  
 
-📧 Contact: asakura.h.madoka@gmail.com
+📧 Contact: s362yu@uwaterloo.ca
