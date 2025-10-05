@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../train/images
+test: ../train/images
+
+nc: 2
+names: ['Authorized', 'Unauthorized']
+
+roboflow:
+  workspace: nic-aohns
+  project: custom-workflow-object-detection-9i9cf
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/nic-aohns/custom-workflow-object-detection-9i9cf/dataset/3
