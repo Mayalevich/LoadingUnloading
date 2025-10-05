@@ -5,9 +5,10 @@ This repository is part of the **F25 NuclearIC Challenge** organized by the [Ide
 
 It implements a **real-time personnel detection and alert system** that integrates **YOLOv11 object detection** and **Arduino hardware feedback** to identify unauthorized personnel during nuclear material loading and unloading operations.
 
-**Author:** [Shunyu Yu](https://github.com/Mayalevich), [Hank Lee](https://github.com/lee-cheng-han), [Max Qiu](https://github.com/Sir7s), [Shiheng Wang](https://github.com/Wshhgugugu)  
-**University of Waterloo — Electrical and Computer Engineering**  
 ---
+
+**Author:** [Shunyu Yu](https://github.com/Mayalevich), [Hank Lee](https://github.com/lee-cheng-han), [Max Qiu](https://github.com/Sir7s), [Shiheng Wang](https://github.com/Wshhgugugu)  
+**University of Waterloo — Electrical and Computer Engineering** 
 
 ## 🔍 Overview
 
