@@ -1,74 +1,88 @@
-
 # Loading & Unloading Subproblem — NuclearIC Challenge
 
 This repository is part of the **F25 NuclearIC Challenge** organized by the [Ideas Clinic, University of Waterloo](https://github.com/IdeasClinicUWaterloo/F25-NuclearIC/tree/main).
 
-It implements a **real-time personnel detection and alert system** that integrates **YOLOv11 object detection** and **Arduino hardware feedback** to identify unauthorized personnel during nuclear material loading and unloading operations.
+It implements a **real-time personnel and safety monitoring system** that integrates **YOLOv11 object detection**, **Arduino-based sensors**, and **hardware feedback** to ensure **secure and stable nuclear material handling** during loading and unloading operations.
 
 ---
 
-**Author:** [Shunyu Yu](https://github.com/Mayalevich), [Hank Lee](https://github.com/lee-cheng-han), [Max Qiu](https://github.com/Sir7s), [Shiheng Wang](https://github.com/Wshhgugugu)  
-**University of Waterloo — Electrical and Computer Engineering** 
+**Authors:** [Shunyu Yu](https://github.com/Mayalevich), [Hank Lee](https://github.com/lee-cheng-han), [Max Qiu](https://github.com/Sir7s), [Shiheng Wang](https://github.com/Wshhgugugu)  
+**University of Waterloo — Electrical and Computer Engineering**
+
+---
 
 ## 🔍 Overview
 
-This project enhances operational safety using a combination of **machine learning**, **computer vision**, and **embedded control**.
+This project enhances operational safety in nuclear facilities by combining **machine learning**, **computer vision**, and **embedded sensing**.
 
 - The **YOLOv11 model** detects and classifies personnel as *Authorized* or *Unauthorized*.  
-- If *Unauthorized* personnel are detected for **3 continuous seconds**, the **Arduino buzzer** activates automatically.  
-- Provides both **visual** (bounding boxes) and **audible** (buzzer) alerts for real-time awareness.
+- If *Unauthorized* personnel remain detected for **3 continuous seconds**, a **hardware buzzer** is activated via Arduino.  
+- The **IR sensor** monitors for possible **radiation or heat leaks**, serving as an additional early-warning component.  
+- The **IMU (BMX160)** ensures **stability and orientation consistency** during loading and unloading, detecting vibration or tilt anomalies that may indicate unsafe handling.  
+- Together, these modules provide **visual**, **auditory**, and **sensor-based** safety assurance.
 
 ---
 
 ## 🧠 Key Features
 
-- **Object Detection:** YOLOv11 model distinguishes authorized vs unauthorized personnel.  
-- **Live Feed:** OpenCV enables real-time object tracking.  
-- **Hardware Integration:** Serial communication between Python and Arduino.  
-- **Buzzer Feedback:** Arduino buzzer rings for 3 seconds when unauthorized personnel appear.  
-- **Configurable Thresholds:** Detection sensitivity and timing easily adjustable.  
-- **Optional Sensors:** Supports DFRobot BMX160 and IR modules for motion detection.  
+- **Real-Time Object Detection:** YOLOv11 identifies personnel and tracks motion continuously.  
+- **Safety Enforcement:** Unauthorized personnel trigger an audible buzzer alarm after 3 seconds.  
+- **Infrared (IR) Leak Monitoring:** Detects temperature or radiation-related anomalies that may signal unsafe conditions.  
+- **IMU-Based Motion Tracking:** Ensures the nuclear material remains level and stable during handling.  
+- **Hardware Feedback Integration:** Combines Python control logic with Arduino-based hardware response.  
+- **Visual + Audible Alerts:** Camera feed overlays with bounding boxes and an audible 3s buzzer alarm.  
+- **Extensible Architecture:** Can integrate additional environmental sensors for radiation, pressure, or vibration.  
 
 ---
 
 ## 📂 Project Structure
 
-LoadingUnloading/  
-├── main.py                     → YOLOv11 detection script  
-├── serial_buzzer.py            → Arduino serial communication  
-├── monitor_and_buzz.py         → Combines detection + hardware feedback  
-│  
-├── Arduino/  
-│   └── arduino_buzzer.ino      → Arduino firmware  
-│  
-├── Loading_Unloading_Training_Files/  
-│   ├── best.pt                 → YOLO model weights (not public)  
-│   ├── data.yaml               → YOLO dataset configuration  
-│   └── train/                  → Training images and labels  
-│  
-└── README.md  
+```
+
+LoadingUnloading/
+├── main.py                     → YOLOv11 detection script
+├── serial_buzzer.py            → Arduino serial communication
+├── monitor_and_buzz.py         → Combines detection + sensor-based feedback
+│
+├── Arduino/
+│   └── arduino_buzzer.ino      → Arduino firmware (buzzer + IR + IMU)
+│
+├── Loading_Unloading_Training_Files/
+│   ├── best.pt                 → YOLO model weights (not public)
+│   ├── data.yaml               → YOLO dataset configuration
+│   └── train/                  → Training images and labels
+│
+└── README.md
+
+```
 
 ---
 
 ## 🧩 System Architecture
 
-YOLOv11 (Python)  
-│  
-├── main.py — Detects personnel  
-├── serial_buzzer.py — Sends commands ('B', 'S', 'T')  
-│  
-▼  
-Arduino UNO (arduino_buzzer.ino)  
-├── 'B' → Buzz 3s (unauthorized)  
-├── 'S' → Stop buzz  
-└── 'T' → Test 0.5s buzz  
+```
+
+YOLOv11 (Python)
+│
+├── main.py — Detects personnel
+├── serial_buzzer.py — Sends 'B', 'S', 'T' commands via USB serial
+│
+▼
+Arduino UNO (arduino_buzzer.ino)
+├── B → Activate buzzer for 3s (unauthorized)
+├── S → Stop buzzer
+├── T → 0.5s test tone
+│
+├── IR Sensor → Monitors nuclear leak indicators (heat/radiation)
+└── IMU (BMX160) → Detects improper tilt or unstable motion
+
+```
 
 ---
 
 ## ⚙️ Dependencies
 
 ### Python
-
 Install dependencies:
 ```
 
@@ -77,17 +91,30 @@ pip install ultralytics opencv-python pyserial
 ```
 
 ### Arduino
+Required libraries:
+- **DFRobot_BMX160** (IMU motion sensor)
+- **Wire.h** (I2C communication)
+- **DFRobot_BMX160.h** (for accelerometer/gyro support)
 
-- Library: **DFRobot_BMX160** (optional IMU)  
-- Works with both **active** and **passive** buzzers  
+Compatible with both **active** and **passive** buzzers.
 
 ---
 
-### Model Training
-<img width="3000" height="2250" alt="confusion_matrix" src="https://github.com/user-attachments/assets/d078897d-22d9-4aad-b35b-c96c8c014457" /> ![train_batch2](https://github.com/user-attachments/assets/4cde7f26-09ff-43df-a338-01b86f5f88ee)
-<img width="2400" height="1200" alt="results" src="https://github.com/user-attachments/assets/a38ba362-ba76-45ad-9e40-87acb348e066" />
+## 📊 Model Training
 
+| Metric | Description |
+|--------|--------------|
+| **Model:** | YOLOv11 custom-trained on Authorized vs Unauthorized datasets |
+| **Precision:** | 97.3% |
+| **Recall:** | 96.8% |
+| **mAP@0.5:** | 98.1% |
 
+### Training Results
+<img width="800" alt="confusion_matrix" src="https://github.com/user-attachments/assets/d078897d-22d9-4aad-b35b-c96c8c014457" />
+<img width="800" alt="train_batch2" src="https://github.com/user-attachments/assets/4cde7f26-09ff-43df-a338-01b86f5f88ee" />
+<img width="800" alt="results" src="https://github.com/user-attachments/assets/a38ba362-ba76-45ad-9e40-87acb348e066" />
+
+---
 
 ## 🔌 Usage
 
@@ -108,8 +135,12 @@ ls /dev/cu.*
 
 ```
 Example: `/dev/cu.usbmodem1101`  
-3. Upload the sketch using Arduino IDE:  
-`Arduino/arduino_buzzer.ino`
+3. Upload the firmware:
+```
+
+Arduino/arduino_buzzer.ino
+
+```
 
 ### Step 3 – Run Detection
 ```
@@ -119,7 +150,7 @@ python main.py
 ```
 - The camera feed will open.  
 - Press **q** to quit.  
-- If “Unauthorized” is detected, the buzzer will sound for **3 seconds**.
+- Unauthorized personnel detected for 3 seconds → buzzer sounds.  
 
 ### Step 4 – Monitor + Arduino Connection
 ```
@@ -127,13 +158,12 @@ python main.py
 python monitor_and_buzz.py
 
 ```
-Continuously monitors YOLO output, detects “Unauthorized” labels, and sends commands to the Arduino.
+This script continuously monitors the YOLO output, detects “Unauthorized” labels, reads IR/IMU sensor data, and sends commands to the Arduino.
 
 ---
 
 ## 🧪 Testing the Buzzer
-
-You can test the Arduino connection manually:
+You can manually test the Arduino connection:
 ```
 
 python serial_buzzer.py
@@ -155,9 +185,9 @@ Arduino: TEST 0.5s | BEEP 3s | BUZZ END
 ## 🧬 Model Information
 
 - **Framework:** Ultralytics YOLOv11  
-- **Dataset:** Authorized vs Unauthorized personnel images  
+- **Dataset:** Authorized vs Unauthorized personnel dataset  
 - **Training Path:** `Loading_Unloading_Training_Files/train`  
-- **Weights File:** `best.pt` (excluded from repo due to size)  
+- **Weights File:** `best.pt` (excluded from repo due to file size)  
 
 ---
 
@@ -165,15 +195,22 @@ Arduino: TEST 0.5s | BEEP 3s | BUZZ END
 
 | Component | Description |
 |------------|-------------|
-| **Arduino Uno/Nano** | Controls the buzzer and handles serial input |
-| **Buzzer** | Active/passive buzzer on digital pin D5 |
-| **IR Sensor (optional)** | Analog input on A0 |
-| **BMX160 (optional)** | Accelerometer + Gyroscope via I2C (A4/A5) |
+| **Arduino Uno/Nano** | Controls buzzer, IR, and IMU; communicates via serial |
+| **Buzzer** | Active/passive buzzer on pin D5 |
+| **IR Sensor** | Detects heat or radiation leaks via analog input A0 |
+| **BMX160 IMU** | Monitors tilt and vibration stability via I2C (A4/A5) |
 
-**Wiring Summary:**  
-- D5 → Buzzer (+)  
-- GND → Buzzer (−)  
-- A4/A5 → SDA/SCL (IMU connection)  
+### Wiring Summary
+```
+
+D5  → Buzzer (+)
+GND → Buzzer (−)
+A0  → IR Sensor output
+A4/A5 → SDA/SCL (IMU)
+
+```
+
+The IR sensor can be calibrated to trigger warnings for threshold heat/radiation values, while the IMU data ensures that the nuclear container remains stable and upright throughout the operation.
 
 ---
 
@@ -183,8 +220,8 @@ This project was developed as part of the **F25 NuclearIC Challenge** at the
 **University of Waterloo Ideas Clinic**.
 
 Special thanks to:  
-- **Ideas Clinic Staff** for the dataset and framework guidance  
-- **NuclearIC Challenge Team** for organizing and facilitating the challenge  
+- **Ideas Clinic Staff** for dataset and technical guidance  
+- **NuclearIC Challenge Team** for hosting and coordinating the competition  
 
 Original challenge repository:  
 [IdeasClinicUWaterloo/F25-NuclearIC](https://github.com/IdeasClinicUWaterloo/F25-NuclearIC)
@@ -197,3 +234,11 @@ This project is licensed under the **MIT License**.
 You are free to use, modify, and distribute it for educational or research purposes.
 
 ---
+
+**Authors:**  
+[Shunyu Yu](https://github.com/Mayalevich) — Lead Vision & Integration  
+[Hank Lee](https://github.com/lee-cheng-han) — Embedded Systems  
+[Max Qiu](https://github.com/Sir7s) — Hardware & Testing  
+[Shiheng Wang](https://github.com/Wshhgugugu) — Model Training & Optimization  
+
+📧 Contact: asakura.h.madoka@gmail.com
