@@ -3,7 +3,7 @@
 
 This repository is part of the **F25 NuclearIC Challenge** organized by the [Ideas Clinic, University of Waterloo](https://github.com/IdeasClinicUWaterloo/F25-NuclearIC/tree/main).
 
-It implements a **real-time personnel detection and alert system** that integrates **YOLOv8 object detection** and **Arduino hardware feedback** to identify unauthorized personnel during nuclear material loading and unloading operations.
+It implements a **real-time personnel detection and alert system** that integrates **YOLOv11 object detection** and **Arduino hardware feedback** to identify unauthorized personnel during nuclear material loading and unloading operations.
 
 ---
 
@@ -11,7 +11,7 @@ It implements a **real-time personnel detection and alert system** that integrat
 
 This project enhances operational safety using a combination of **machine learning**, **computer vision**, and **embedded control**.
 
-- The **YOLOv8 model** detects and classifies personnel as *Authorized* or *Unauthorized*.  
+- The **YOLOv11 model** detects and classifies personnel as *Authorized* or *Unauthorized*.  
 - If *Unauthorized* personnel are detected for **3 continuous seconds**, the **Arduino buzzer** activates automatically.  
 - Provides both **visual** (bounding boxes) and **audible** (buzzer) alerts for real-time awareness.
 
@@ -19,7 +19,7 @@ This project enhances operational safety using a combination of **machine learni
 
 ## 🧠 Key Features
 
-- **Object Detection:** YOLOv8 model distinguishes authorized vs unauthorized personnel.  
+- **Object Detection:** YOLOv11 model distinguishes authorized vs unauthorized personnel.  
 - **Live Feed:** OpenCV enables real-time object tracking.  
 - **Hardware Integration:** Serial communication between Python and Arduino.  
 - **Buzzer Feedback:** Arduino buzzer rings for 3 seconds when unauthorized personnel appear.  
@@ -31,7 +31,7 @@ This project enhances operational safety using a combination of **machine learni
 ## 📂 Project Structure
 
 LoadingUnloading/  
-├── main.py                     → YOLOv8 detection script  
+├── main.py                     → YOLOv11 detection script  
 ├── serial_buzzer.py            → Arduino serial communication  
 ├── monitor_and_buzz.py         → Combines detection + hardware feedback  
 │  
@@ -49,7 +49,7 @@ LoadingUnloading/
 
 ## 🧩 System Architecture
 
-YOLOv8 (Python)  
+YOLOv11 (Python)  
 │  
 ├── main.py — Detects personnel  
 ├── serial_buzzer.py — Sends commands ('B', 'S', 'T')  
@@ -79,6 +79,12 @@ pip install ultralytics opencv-python pyserial
 - Works with both **active** and **passive** buzzers  
 
 ---
+
+### Model Training
+<img width="3000" height="2250" alt="confusion_matrix" src="https://github.com/user-attachments/assets/d078897d-22d9-4aad-b35b-c96c8c014457" /> ![train_batch2](https://github.com/user-attachments/assets/4cde7f26-09ff-43df-a338-01b86f5f88ee)
+<img width="2400" height="1200" alt="results" src="https://github.com/user-attachments/assets/a38ba362-ba76-45ad-9e40-87acb348e066" />
+
+
 
 ## 🔌 Usage
 
@@ -145,7 +151,7 @@ Arduino: TEST 0.5s | BEEP 3s | BUZZ END
 
 ## 🧬 Model Information
 
-- **Framework:** Ultralytics YOLOv8  
+- **Framework:** Ultralytics YOLOv11  
 - **Dataset:** Authorized vs Unauthorized personnel images  
 - **Training Path:** `Loading_Unloading_Training_Files/train`  
 - **Weights File:** `best.pt` (excluded from repo due to size)  
