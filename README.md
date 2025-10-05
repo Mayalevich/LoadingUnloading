@@ -198,5 +198,3 @@ You are free to use, modify, and distribute it for educational or research purpo
 **Author:** Shunyu Yu  
 **University of Waterloo — Electrical and Computer Engineering**  
 📧 asakura.h.madoka@gmail.com
-```
-
