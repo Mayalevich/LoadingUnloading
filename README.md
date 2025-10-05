@@ -237,8 +237,8 @@ You are free to use, modify, and distribute it for educational or research purpo
 
 **Authors:**  
 [Shunyu Yu](https://github.com/Mayalevich) — Lead Vision & Integration  
-[Hank Lee](https://github.com/lee-cheng-han) — Embedded Systems  
-[Max Qiu](https://github.com/Sir7s) — Hardware & Testing  
+[Hank Lee](https://github.com/lee-cheng-han) — Hardware & Testing  
+[Max Qiu](https://github.com/Sir7s) — Embedded Systems   
 [Shiheng Wang](https://github.com/Wshhgugugu) — Model Training & Optimization  
 
 📧 Contact: asakura.h.madoka@gmail.com
