@@ -1,4 +1,4 @@
-# LoadShield — NuclearIC Challenge
+# AtomSentinel — NuclearIC Challenge
 
 This repository is part of the **F25 NuclearIC Challenge** organized by the [Ideas Clinic, University of Waterloo](https://github.com/IdeasClinicUWaterloo/F25-NuclearIC/tree/main).
 
